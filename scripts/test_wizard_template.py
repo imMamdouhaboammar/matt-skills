@@ -9,6 +9,7 @@ lines = template.read_text().splitlines()
 marker = next(i for i, line in enumerate(lines) if "STAGES — author this section" in line)
 library = "\n".join(lines[: marker - 1]) + "\n"
 
+# Normal writes, input validation, and browser fallback.
 with tempfile.TemporaryDirectory() as td:
     env_file = Path(td) / ".env"
     harness = Path(td) / "harness.sh"
@@ -33,4 +34,29 @@ PATH=/definitely-not-a-real-bin open_url "https://example.invalid"
     assert "refusing multiline value for BADCR" in combined
     assert "invalid environment key: BAD-NAME" in combined
     assert "couldn't open a browser" in combined
+
+# A real read error must never replace the original environment file.
+with tempfile.TemporaryDirectory() as td:
+    td_path = Path(td)
+    env_file = td_path / ".env"
+    env_file.write_text("KEEP=original\n")
+    fakebin = td_path / "bin"
+    fakebin.mkdir()
+    fake_grep = fakebin / "grep"
+    fake_grep.write_text("#!/usr/bin/env bash\nexit 2\n")
+    fake_grep.chmod(0o755)
+    harness = td_path / "grep-failure.sh"
+    harness.write_text(
+        library
+        + f"""
+ENV_FILE="$1"
+PATH="{fakebin}:$PATH"
+if write_env NEW "value"; then exit 44; fi
+"""
+    )
+    result = subprocess.run(["bash", str(harness), str(env_file)], text=True, capture_output=True)
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert env_file.read_text() == "KEEP=original\n"
+    assert "leaving it unchanged" in (result.stdout + result.stderr)
+
 print("wizard template safety: PASS")

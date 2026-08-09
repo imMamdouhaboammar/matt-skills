@@ -138,7 +138,16 @@ write_env() {
   [[ "$value" != *$'\n'* && "$value" != *$'\r'* ]] || { warn "refusing multiline value for $key"; return 1; }
   touch "$ENV_FILE"
   tmp=$(mktemp)
-  grep -vE "^${key}=" "$ENV_FILE" > "$tmp" || true
+  if grep -vE "^${key}=" "$ENV_FILE" > "$tmp"; then
+    :
+  else
+    local grep_status=$?
+    if [[ "$grep_status" -ne 1 ]]; then
+      rm -f "$tmp"
+      warn "couldn't read $ENV_FILE safely; leaving it unchanged"
+      return "$grep_status"
+    fi
+  fi
   printf '%s=%s\n' "$key" "$value" >> "$tmp"
   mv "$tmp" "$ENV_FILE"
   WRITTEN_ENV+=("$key")
