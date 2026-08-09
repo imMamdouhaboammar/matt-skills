@@ -1,0 +1,49 @@
+{
+  "name": "matt-skills-curated",
+  "version": "1.0.0",
+  "description": "Curated engineering and productivity Skills adapted from Matt Pocock's MIT-licensed agent skills for ChatGPT and Codex.",
+  "author": {
+    "name": "Mamdouh Aboammar"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Matt Skills Curated",
+    "shortDescription": "Curated workflow skills",
+    "longDescription": "A curated ChatGPT and Codex distribution of Matt Pocock's MIT-licensed engineering and productivity workflows, matured for automatic routing. It includes focused Skills for requirements, specs, tickets, TDD, debugging, review, architecture, research, repository safety and setup, TypeScript package boundaries, workflow design, handoffs, teaching, course exercise scaffolding, and long-form writing. Host-specific duplicates and repository-development noise are excluded.",
+    "developerName": "Mamdouh Aboammar",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Engineering task routing",
+      "Requirements discovery",
+      "Technical specifications",
+      "Issue decomposition",
+      "Test-driven development",
+      "Bug diagnosis",
+      "Code review",
+      "Architecture design",
+      "Domain modeling",
+      "Primary-source research",
+      "Issue triage",
+      "Prototype planning",
+      "Merge conflict resolution",
+      "Workflow handoffs",
+      "Technical teaching",
+      "Agent-facing documentation",
+      "Repository safety setup",
+      "Commit-time quality checks",
+      "Workflow design",
+      "Long-form writing"
+    ],
+    "defaultPrompt": [
+      "Choose the best engineering workflow for this task and execute it",
+      "Turn this idea into a buildable engineering plan",
+      "Diagnose this bug, fix it, and verify the result"
+    ],
+    "logo": "./assets/mark.svg",
+    "composerIcon": "./assets/mark.svg",
+    "websiteURL": "https://github.com/imMamdouhaboammar/matt-skills",
+    "privacyPolicyURL": "https://github.com/imMamdouhaboammar/matt-skills/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/imMamdouhaboammar/matt-skills/blob/main/TERMS.md",
+    "supportURL": "https://github.com/imMamdouhaboammar/matt-skills/issues"
+  }
+}
