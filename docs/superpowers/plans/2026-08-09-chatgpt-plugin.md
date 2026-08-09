@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Architecture is `skills-only`; no MCP or app server.
-- Public package contains exactly the curated stable skills plus `matt-skills-guide`.
+- Public package contains exactly the curated stable skills with the router adapted in place.
 - Preserve MIT attribution to Matt Pocock and identify the fork maintainer separately.
 - No symlinks, secrets, telemetry, absolute local paths, Claude marketplace metadata, beta/deprecated buckets, or generated duplicate skills.
 - Plugin Directory listing fields obey current OpenAI limits verified on 2026-08-09.
@@ -24,8 +24,8 @@
 - [ ] Run a structural assertion for 25 stable skills and zero duplicates.
 
 ### Task 2: Add routing and portability adaptations
-- [ ] Add model-invoked `matt-skills-guide` with catalog and `agents/openai.yaml`.
-- [ ] Keep `ask-matt` user-invoked and update its prose for OpenAI skill invocation.
+- [ ] Rename `ask-matt` to model-invoked `engineering-workflow-guide` with a focused routing catalog.
+- [ ] Rename `setup-matt-pocock-skills` to `setup-engineering-workflows` and update all cross-skill references.
 - [ ] Adapt setup guidance to OpenAI/AGENTS.md semantics while keeping behavior intact.
 - [ ] Verify every guide/catalog route points to an existing packaged skill.
 
@@ -49,5 +49,5 @@
 ### Task 6: External validation, smoke, and GitHub integration
 - [ ] Run ChatGPT Plugin Autopilot validator.
 - [ ] Build twice with Plugin Autopilot packager and require byte-identical archives.
-- [ ] Install the exact artifact into an isolated Codex home and verify all 26 skills plus router metadata.
+- [ ] Install the exact artifact into an isolated Codex home and verify all 25 curated skills plus router metadata.
 - [ ] Commit, push feature branch, open PR, inspect checks, merge after green, and verify `main` remotely.

@@ -5,14 +5,14 @@ Transform the fork into a public-ready, skills-only ChatGPT/Codex plugin that pr
 
 ## Scope
 - Keep all 25 upstream promoted skills from `skills/engineering` and `skills/productivity`.
-- Add one model-invoked routing skill, `matt-skills-guide`, so ChatGPT can choose the narrowest useful specialist automatically.
+- Promote the existing router into `engineering-workflow-guide`, a model-invoked Skill that lets ChatGPT choose the narrowest useful specialist automatically.
 - Keep each promoted skill directory intact, including `agents/openai.yaml`, support files, and deterministic scripts.
 - Exclude `misc`, `in-progress`, and `deprecated` from the public plugin.
 - Remove Claude-only marketplace metadata, changesets, npm release plumbing, source-development docs, and local harness linking scripts from the final public tree.
 - Preserve MIT attribution and record the exact upstream commit used for the curation.
 
 ## Architecture
-Use a skills-only plugin. The final `skills/` directory is flat: every immediate child is a valid Skill, which satisfies the single-path Codex plugin manifest and avoids generated duplicates or symlinks. `matt-skills-guide` owns routing; `ask-matt` remains an explicit human-invoked map.
+Use a skills-only plugin. The final `skills/` directory is flat: every immediate child is a valid Skill, which satisfies the single-path Codex plugin manifest and avoids generated duplicates or symlinks. `engineering-workflow-guide` owns routing and replaces the branded manual-only `ask-matt` surface. `setup-matt-pocock-skills` is adapted to `setup-engineering-workflows`.
 
 ## Public package
 The package contains `.codex-plugin/plugin.json`, `skills/`, square SVG branding, README, LICENSE, THIRD_PARTY_NOTICES, PRIVACY, TERMS, SUPPORT, provenance metadata, and stdlib-only validation/package scripts. No MCP, hooks, telemetry, credentials, node_modules, source-only buckets, or Claude plugin metadata ship.
