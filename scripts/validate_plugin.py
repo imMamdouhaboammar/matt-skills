@@ -73,6 +73,25 @@ for p in ROOT.rglob('*'):
         for token in FORBIDDEN_TEXT:
             if token in text: fail(f'forbidden text {token!r}: {p.relative_to(ROOT)}')
 
+# Secret-shape scan. Patterns target credential values, not variable names or placeholders.
+secret_patterns = {
+    'private_key': re.compile(r'BEGIN ' + r'(?:RSA |EC |OPENSSH )?PRIVATE KEY'),
+    'aws_access_key': re.compile(r'AKIA[0-9A-Z]{16}'),
+    'github_token': re.compile(r'gh[pousr]_[A-Za-z0-9]{20,}'),
+    'openai_key': re.compile(r'sk-' + r'(?:proj-)?[A-Za-z0-9_-]{20,}'),
+    'slack_token': re.compile(r'xox[baprs]-[A-Za-z0-9-]{20,}'),
+}
+for p in ROOT.rglob('*'):
+    if not p.is_file() or '.git' in p.parts:
+        continue
+    try:
+        text = p.read_text(encoding='utf-8')
+    except (UnicodeDecodeError, OSError):
+        continue
+    for label, pattern in secret_patterns.items():
+        if pattern.search(text):
+            fail(f'secret-shaped value ({label}): {p.relative_to(ROOT)}')
+
 # Plugin manifest
 manifest_path = ROOT/'.codex-plugin'/'plugin.json'
 try: manifest = json.loads(manifest_path.read_text())
@@ -119,7 +138,7 @@ except Exception as exc:
     provenance={}
 curation=provenance.get('curation',{}) if isinstance(provenance,dict) else {}
 if curation.get('plugin_version') != manifest.get('version'): fail('provenance plugin_version differs from manifest')
-if provenance.get('upstream',{}).get('commit') != '84fdeff': fail('unexpected upstream commit')
+if provenance.get('upstream',{}).get('commit') != '84fdeffd12f2ee307994d1eb6feb48173b6e0502': fail('unexpected upstream commit')
 if provenance.get('upstream',{}).get('license') != 'MIT': fail('upstream license must be MIT')
 
 # Skills
