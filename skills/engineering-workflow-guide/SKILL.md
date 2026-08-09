@@ -26,5 +26,11 @@ Route work before executing it when the best specialist is not already obvious.
 - Primary-source investigation: `research`
 - Continue work elsewhere: `handoff`
 - Human-only setup or dashboard steps: `wizard`
+- Repeated operational work -> `workflow-designer`
+- Git operation with destructive potential -> `git-safety-guardrails`
+- Repository commit-time checks -> `setup-pre-commit`
+- TypeScript package boundaries -> `setup-ts-deep-modules`
+- Course or workshop exercises -> `scaffold-exercises`
+- Long-form writing from raw material -> `writing-fragments` -> `writing-shape` or `writing-beats`
 
 Completion criterion: the selected route names the smallest set of packaged skills needed for the task, and every selected skill exists in the catalog.

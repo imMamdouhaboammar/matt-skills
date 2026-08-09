@@ -10,34 +10,41 @@
     "plugin_version": "1.0.0",
     "source_buckets": [
       "engineering",
-      "productivity"
+      "productivity",
+      "misc",
+      "in-progress"
     ],
     "excluded_buckets": [
-      "misc",
-      "in-progress",
       "deprecated"
     ],
     "renamed_skills": {
       "ask-matt": "engineering-workflow-guide",
-      "setup-matt-pocock-skills": "setup-engineering-workflows"
+      "setup-matt-pocock-skills": "setup-engineering-workflows",
+      "git-guardrails-claude-code": "git-safety-guardrails",
+      "loop-me": "workflow-designer"
     },
-    "skill_count": 25,
+    "skill_count": 34,
     "skills": [
       "code-review",
       "codebase-design",
       "diagnosing-bugs",
       "domain-modeling",
       "engineering-workflow-guide",
+      "git-safety-guardrails",
       "grill-me",
       "grill-with-docs",
       "grilling",
       "handoff",
       "implement",
       "improve-codebase-architecture",
+      "migrate-to-shoehorn",
       "prototype",
       "research",
       "resolving-merge-conflicts",
+      "scaffold-exercises",
       "setup-engineering-workflows",
+      "setup-pre-commit",
+      "setup-ts-deep-modules",
       "tdd",
       "teach",
       "to-questionnaire",
@@ -47,7 +54,14 @@
       "wait-what",
       "wayfinder",
       "wizard",
-      "writing-for-agents"
-    ]
+      "workflow-designer",
+      "writing-beats",
+      "writing-for-agents",
+      "writing-fragments",
+      "writing-shape"
+    ],
+    "excluded_skills": {
+      "claude-handoff": "host-specific duplicate of portable handoff workflow"
+    }
   }
 }

@@ -20,6 +20,10 @@ jobs:
           bash -n skills/wizard/template.sh
           bash -n skills/diagnosing-bugs/scripts/hitl-loop.template.sh
           python3 scripts/test_wizard_template.py
+      - name: Test graduated skill helpers
+        run: |
+          node --check skills/setup-ts-deep-modules/dependency-cruiser.config.cjs
+          python3 scripts/test_git_safety_guardrails.py
       - name: Build deterministic packages
         run: |
           python3 scripts/package_plugin.py /tmp/plugin-a.zip

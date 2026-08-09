@@ -4,13 +4,13 @@ A curated, ChatGPT/Codex-ready distribution of Matt Pocock's MIT-licensed engine
 
 ## What ships
 
-The plugin contains 25 focused Skills under one native `skills/` root. `engineering-workflow-guide` is model-invoked and routes ambiguous engineering or productivity work to the narrowest useful specialist. All 25 packaged Skills are model-invoked so ChatGPT or Codex can route from the guide into the selected specialist automatically. External writes and tool actions still follow the permissions and confirmation rules of the active host.
+The plugin contains 34 focused Skills under one native `skills/` root. `engineering-workflow-guide` is model-invoked and routes ambiguous engineering or productivity work to the narrowest useful specialist. All 34 packaged Skills are model-invoked so ChatGPT or Codex can route from the guide into the selected specialist automatically. External writes and tool actions still follow the permissions and confirmation rules of the active host.
 
-Core workflows cover requirements discovery, specs, tickets, implementation, TDD, debugging, code review, domain modeling, architecture, research, triage, prototyping, merge conflict resolution, setup, handoffs, teaching, and writing for agents.
+Core workflows cover requirements discovery, specs, tickets, implementation, TDD, debugging, review, domain modeling, architecture, research, triage, Git safety, pre-commit quality, TypeScript package boundaries, workflow design, handoffs, teaching, exercise scaffolding, agent documentation, and long-form writing.
 
 ## What does not ship
 
-The public package intentionally excludes upstream `misc`, `in-progress`, and `deprecated` buckets, Claude marketplace metadata, changesets, npm release plumbing, local harness linking scripts, and source-development notes. Those are repository-maintenance concerns rather than ChatGPT plugin capabilities.
+The public package evaluates upstream `misc` and `in-progress` capabilities individually. Useful workflows are adapted and promoted into the flat public `skills/` root. The Claude-only background handoff is excluded because the portable `handoff` Skill already covers the durable handoff job, and the upstream deprecated bucket is empty. Claude marketplace metadata, changesets, npm release plumbing, local harness linking scripts, and source-development notes remain excluded as repository-maintenance material.
 
 ## Architecture
 

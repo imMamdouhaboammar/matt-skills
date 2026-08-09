@@ -9,8 +9,8 @@ EXPECTED_ROOT = {
     'README.md', 'SUPPORT.md', 'TERMS.md', 'THIRD_PARTY_NOTICES.md', 'assets',
     'scripts', 'skills', 'source-provenance.json'
 }
-EXPECTED_SKILL_COUNT = 25
-OLD_SLUGS = {'ask-matt', 'setup-matt-pocock-skills'}
+EXPECTED_SKILL_COUNT = 34
+OLD_SLUGS = {'ask-matt', 'setup-matt-pocock-skills', 'git-guardrails-claude-code', 'loop-me', 'claude-handoff'}
 FORBIDDEN_NAMES = {'.DS_Store', 'node_modules', '.claude-plugin', '.changeset', '.out-of-scope', 'CLAUDE.md'}
 FORBIDDEN_TEXT = ('/Us'+'ers/', 'security-'+'penetration-'+'tester', 'telemetry_'+'init.py')
 SEMVER = re.compile(r'^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$')

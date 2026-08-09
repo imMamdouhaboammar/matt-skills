@@ -7,4 +7,4 @@ This plugin contains adapted material from `mattpocock/skills`.
 - Original copyright: Copyright (c) 2026 Matt Pocock
 - License: MIT
 
-The original MIT license is retained in `LICENSE`. Packaging, routing, OpenAI plugin metadata, portability edits, and validation/release tooling in this fork are maintained separately.
+The original MIT license is retained in `LICENSE`. Packaging, routing, OpenAI plugin metadata, portability edits, validation/release tooling, and the maturation of selected upstream misc/beta workflows are maintained separately.

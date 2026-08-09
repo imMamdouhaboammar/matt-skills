@@ -8,8 +8,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Matt Skills Curated",
-    "shortDescription": "Engineering workflow skills",
-    "longDescription": "A curated ChatGPT and Codex distribution of Matt Pocock's MIT-licensed engineering and productivity workflows. It routes ambiguous work to focused Skills for requirements discovery, specs, tickets, TDD, debugging, code review, architecture, research, triage, handoffs, teaching, and agent-facing documentation. Beta, deprecated, Claude-only marketplace, npm release, and repository-development material are excluded from the public package.",
+    "shortDescription": "Curated workflow skills",
+    "longDescription": "A curated ChatGPT and Codex distribution of Matt Pocock's MIT-licensed engineering and productivity workflows, matured for automatic routing. It includes focused Skills for requirements, specs, tickets, TDD, debugging, review, architecture, research, repository safety and setup, TypeScript package boundaries, workflow design, handoffs, teaching, course exercise scaffolding, and long-form writing. Host-specific duplicates and repository-development noise are excluded.",
     "developerName": "Mamdouh Aboammar",
     "category": "Developer Tools",
     "capabilities": [
@@ -22,7 +22,6 @@
       "Code review",
       "Architecture design",
       "Domain modeling",
-      "Codebase architecture review",
       "Primary-source research",
       "Issue triage",
       "Prototype planning",
@@ -30,7 +29,10 @@
       "Workflow handoffs",
       "Technical teaching",
       "Agent-facing documentation",
-      "Human setup wizards"
+      "Repository safety setup",
+      "Commit-time quality checks",
+      "Workflow design",
+      "Long-form writing"
     ],
     "defaultPrompt": [
       "Choose the best engineering workflow for this task and execute it",
