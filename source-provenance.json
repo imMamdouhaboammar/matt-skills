@@ -1,0 +1,53 @@
+{
+  "upstream": {
+    "repository": "https://github.com/mattpocock/skills",
+    "commit": "84fdeff",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 Matt Pocock"
+  },
+  "curation": {
+    "maintainer": "Mamdouh Aboammar",
+    "plugin_version": "1.0.0",
+    "source_buckets": [
+      "engineering",
+      "productivity"
+    ],
+    "excluded_buckets": [
+      "misc",
+      "in-progress",
+      "deprecated"
+    ],
+    "renamed_skills": {
+      "ask-matt": "engineering-workflow-guide",
+      "setup-matt-pocock-skills": "setup-engineering-workflows"
+    },
+    "skill_count": 25,
+    "skills": [
+      "code-review",
+      "codebase-design",
+      "diagnosing-bugs",
+      "domain-modeling",
+      "engineering-workflow-guide",
+      "grill-me",
+      "grill-with-docs",
+      "grilling",
+      "handoff",
+      "implement",
+      "improve-codebase-architecture",
+      "prototype",
+      "research",
+      "resolving-merge-conflicts",
+      "setup-engineering-workflows",
+      "tdd",
+      "teach",
+      "to-questionnaire",
+      "to-spec",
+      "to-tickets",
+      "triage",
+      "wait-what",
+      "wayfinder",
+      "wizard",
+      "writing-for-agents"
+    ]
+  }
+}
