@@ -37,13 +37,17 @@ If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The ma
 │       └── docs/adr/
 ```
 
-Create files lazily — only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+### Resolve the active context first
+
+Before reading or writing a glossary or choosing an ADR directory, resolve the active context. If the repository has no root `CONTEXT-MAP.md`, the active context is the repository root. If a map exists, read it first and resolve the context from the domain concept and code path currently under discussion. Use that context's `CONTEXT.md` and context-local `docs/adr/`. Decisions that intentionally span multiple contexts are system-wide and use the repository-root `docs/adr/`.
+
+Create files lazily only after that resolution. Create the active context's `CONTEXT.md` when its first term is resolved. Create the selected ADR directory when the first qualifying decision for that scope is recorded.
 
 ## During the session
 
 ### Challenge against the glossary
 
-When the user uses a term that conflicts with the existing language in `CONTEXT.md`, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
+When the user uses a term that conflicts with the existing language in the active context's `CONTEXT.md`, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
 
 ### Sharpen fuzzy language
 
@@ -57,11 +61,11 @@ When domain relationships are being discussed, stress-test them with specific sc
 
 When the user states how something works, check whether the code agrees. If you find a contradiction, surface it: "Your code cancels entire Orders, but you just said partial cancellation is possible — which is right?"
 
-### Update CONTEXT.md inline
+### Update the active CONTEXT.md inline
 
-When a term is resolved, update `CONTEXT.md` right there. Don't batch these up — capture them as they happen. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
+When a term is resolved, update the resolved active context's `CONTEXT.md` right there. Do not batch these up. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
 
-`CONTEXT.md` should be totally devoid of implementation details. Do not treat `CONTEXT.md` as a spec, a scratch pad, or a repository for implementation decisions. It is a glossary and nothing else.
+Every context-specific `CONTEXT.md` should be devoid of implementation details. Do not treat `CONTEXT.md` as a spec, a scratch pad, or a repository for implementation decisions. It is a glossary and nothing else.
 
 ### Offer ADRs sparingly
 

@@ -1,30 +1,26 @@
 # Issue tracker: Local Markdown
 
-Issues and specs for this repo live as markdown files in `.scratch/`.
+Use repository-local Markdown under `.scratch/` when no remote tracker convention is established.
 
 ## Conventions
 
-- One feature per directory: `.scratch/<feature-slug>/`
-- The spec is `.scratch/<feature-slug>/spec.md`
-- Implementation issues are one file per ticket at `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` — never a single combined tickets file
-- Triage state is recorded as a `Status:` line near the top of each issue file (see `triage-labels.md` for the role strings)
-- Comments and conversation history append to the bottom of the file under a `## Comments` heading
+- One effort per directory: `.scratch/<effort>/`.
+- The spec is `.scratch/<effort>/spec.md` when one exists.
+- Tickets are `.scratch/<effort>/issues/<NN>-<slug>.md`, numbered from `01`.
+- A ticket records `Status: open|claimed|resolved`, `Assignee: <owner>` when claimed, optional `Blocked by: NN, NN`, and `Type: research|prototype|grilling|task` when used by wayfinder.
+- Conversation history appends under `## Comments`.
 
-## When a skill says "publish to the issue tracker"
+## Skill phrases
 
-Create a new file under `.scratch/<feature-slug>/` (creating the directory if needed).
-
-## When a skill says "fetch the relevant ticket"
-
-Read the file at the referenced path. The user will normally pass the path or the issue number directly.
+- **publish to the issue tracker**: create the appropriate file under `.scratch/<effort>/`.
+- **fetch the relevant ticket**: read the referenced ticket file.
 
 ## Wayfinding operations
 
-Used by `wayfinder`. The **map** is a file with one **child** file per ticket.
-
-- **Map**: `.scratch/<effort>/map.md` — the Notes / Decisions-so-far / Fog body.
-- **Child ticket**: `.scratch/<effort>/issues/NN-<slug>.md`, numbered from `01`, with the question in the body. A `Type:` line records the ticket type (`research`/`prototype`/`grilling`/`task`); a `Status:` line records `claimed`/`resolved`.
-- **Blocking**: a `Blocked by: NN, NN` line near the top. A ticket is unblocked when every file it lists is `resolved`.
-- **Frontier**: scan `.scratch/<effort>/issues/` for files that are open, unblocked, and unclaimed; first by number wins.
-- **Claim**: set `Status: claimed` and save before any work.
-- **Resolve**: append the answer under an `## Answer` heading, set `Status: resolved`, then append a context pointer (gist + link) to the map's Decisions-so-far in `map.md`.
+- **Map**: `.scratch/<effort>/map.md`.
+- **Child**: `.scratch/<effort>/issues/<NN>-<slug>.md`; numeric order is map order.
+- **Blocking**: a child is blocked until every numbered ticket in `Blocked by:` has `Status: resolved`.
+- **Frontier**: scan children in numeric order and choose the first open, unblocked, unclaimed ticket.
+- **Claim**: atomically create `.scratch/<effort>/.claims/<NN>/` with `mkdir`. If creation fails, another session owns the claim, so skip it. Write the current session owner into `.claims/<NN>/owner`, set `Status: claimed` and `Assignee: <owner>` in the ticket, then reread both files and verify they agree before doing work. If verification fails, abandon the claim and skip the ticket.
+- **Resolve**: append the result under `## Answer`, set `Status: resolved`, then append a Decisions-so-far entry that links the ticket title to its relative `issues/<NN>-<slug>.md` file and follows it with a one-line gist. Remove the claim directory only after the resolved state is safely written.
+- **Abandon**: if a claimed session intentionally gives up, restore `Status: open`, clear `Assignee`, then remove its own claim directory. Never remove another owner's claim.

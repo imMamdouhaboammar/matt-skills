@@ -1,7 +1,6 @@
 ---
 name: setup-engineering-workflows
-description: Configure a repository for these engineering skills by recording issue-tracker conventions, triage labels, and domain-document locations. Run once before repository workflows that depend on those conventions.
-disable-model-invocation: true
+description: Use when repository workflows need explicit issue-tracker, triage-label, domain-document, or agent-instruction conventions before planning, triage, wayfinding, or ticket work can run reliably.
 ---
 
 # Setup Engineering Workflows
@@ -23,7 +22,7 @@ Read the repository before writing anything:
 Use evidence to choose defaults, and ask only when the repository does not settle the choice.
 
 ### Issue tracker
-Prefer GitHub when the remote is GitHub. Otherwise preserve an existing tracker convention. Local markdown under `.scratch/<feature>/` is the portable fallback. Record the result in `docs/agents/issue-tracker.md`.
+Preserve an existing tracker convention first. Evidence includes `docs/agents/issue-tracker.md`, established `.scratch/<effort>/` tickets, repository contributor docs, or an existing issue/MR workflow. Only when no convention exists should the remote choose the default: GitHub remote -> GitHub, GitLab remote -> GitLab, otherwise local Markdown under `.scratch/<effort>/`. Record the result in `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 When `triage` is available, default to: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. Preserve existing equivalent labels rather than creating duplicates. Record the mapping in `docs/agents/triage-labels.md`.

@@ -1,6 +1,6 @@
 # Learning Record Format
 
-Learning records live in `./learning-records/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc. Create the directory lazily — only when the first record is written.
+Learning records live in `./learning-records/` and use one canonical identifier in both filenames and references: `LR-0001-slug.md`, `LR-0002-slug.md`, etc. Create the directory lazily — only when the first record is written.
 
 They are the teaching equivalent of ADRs: they capture non-obvious lessons, key insights, and stated prior knowledge that will steer future sessions. They are used to calculate the zone of proximal development.
 
@@ -18,13 +18,13 @@ That is the whole format. A learning record can be a single paragraph. The value
 
 Only include these when they add genuine value. Most records won't need them.
 
-- **Status** frontmatter (`active | superseded by LR-NNNN`) — useful when an earlier understanding turns out to be wrong and is replaced.
+- **Status** frontmatter (`active | superseded by LR-NNNN-slug`) — useful when an earlier understanding turns out to be wrong and is replaced.
 - **Evidence** — how the user demonstrated the understanding (a question answered, an exercise completed, prior experience cited). Useful when the claim might be revisited.
 - **Implications** — what this unlocks or rules out for future sessions. Worth recording when non-obvious.
 
 ## Numbering
 
-Scan `./learning-records/` for the highest existing number and increment by one.
+Scan `./learning-records/LR-*.md` for the highest four-digit number and increment by one. The complete filename stem, for example `LR-0042-query-planning`, is the record identifier used by supersession references.
 
 ## When to write a learning record
 
@@ -43,4 +43,4 @@ Write one when any of these is true:
 
 ## Supersession
 
-When a later record contradicts an earlier one (the user's understanding deepened or corrected), mark the old record `Status: superseded by LR-NNNN` rather than deleting it. The history of how understanding evolved is itself useful signal.
+When a later record contradicts an earlier one (the user's understanding deepened or corrected), mark the old record with the new record's complete identifier, for example `Status: superseded by LR-0042-query-planning`, rather than deleting it. The history of how understanding evolved is itself useful signal.

@@ -66,12 +66,17 @@ warn() { printf '  %s⚠ %s%s\n' "$YELLOW" "$1" "$RESET"; }
 open_url() {
   local url="$1"
   printf '  %s↗ opening%s %s\n' "$GREEN" "$RESET" "$url"
-  { if   command -v wslview     >/dev/null 2>&1; then wslview "$url"
-    elif command -v explorer.exe >/dev/null 2>&1; then explorer.exe "$url"
-    elif command -v xdg-open    >/dev/null 2>&1; then xdg-open "$url"
-    elif command -v open        >/dev/null 2>&1; then open "$url"
-    else warn "couldn't open a browser — visit it manually: $url"; fi
-  } >/dev/null 2>&1 || warn "couldn't open a browser — visit it manually: $url"
+  if command -v wslview >/dev/null 2>&1; then
+    wslview "$url" >/dev/null 2>&1 || warn "couldn't open a browser — visit it manually: $url"
+  elif command -v explorer.exe >/dev/null 2>&1; then
+    explorer.exe "$url" >/dev/null 2>&1 || warn "couldn't open a browser — visit it manually: $url"
+  elif command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "$url" >/dev/null 2>&1 || warn "couldn't open a browser — visit it manually: $url"
+  elif command -v open >/dev/null 2>&1; then
+    open "$url" >/dev/null 2>&1 || warn "couldn't open a browser — visit it manually: $url"
+  else
+    warn "couldn't open a browser — visit it manually: $url"
+  fi
 }
 
 # pause "msg" — wait for the human to confirm they've done the manual part.
@@ -129,6 +134,8 @@ ask_secret() {
 # any existing line). Idempotent.
 write_env() {
   local key="$1" value="$2" tmp
+  [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || { warn "invalid environment key: $key"; return 1; }
+  [[ "$value" != *$'\n'* && "$value" != *$'\r'* ]] || { warn "refusing multiline value for $key"; return 1; }
   touch "$ENV_FILE"
   tmp=$(mktemp)
   grep -vE "^${key}=" "$ENV_FILE" > "$tmp" || true

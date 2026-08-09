@@ -4,7 +4,7 @@ This repository is the public source for the `matt-skills-curated` ChatGPT/Codex
 
 - `skills/` is flat and contains only public, curated Skills.
 - Every Skill must have `SKILL.md` and `agents/openai.yaml`.
-- User-invoked Skills must pair `disable-model-invocation: true` with `policy.allow_implicit_invocation: false`.
+- Every packaged Skill is model-invoked in this curated edition so the router can reach it automatically. Do not add manual-only invocation flags to public Skills.
 - `engineering-workflow-guide` is the model-invoked router and its catalog must cover every other packaged Skill exactly once.
 - Keep upstream provenance and MIT attribution accurate.
 - Keep beta, deprecated, harness-specific marketplace, telemetry, credentials, symlinks, and generated duplicate Skills out of the public tree.

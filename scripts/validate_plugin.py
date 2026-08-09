@@ -162,7 +162,7 @@ for d in skill_dirs:
         if not yaml_value(at,'short_description'): fail(f'{d.name}: short_description missing')
         user_only = meta.get('disable-model-invocation','').lower() == 'true'
         policy_false = bool(re.search(r'(?m)^\s*allow_implicit_invocation:\s*false\s*$', at))
-        if user_only != policy_false: fail(f'{d.name}: invocation policy mismatch')
+        if user_only or policy_false: fail(f'{d.name}: curated Skills must allow model invocation')
 if len(set(slugs)) != len(slugs): fail('duplicate skill names')
 for old in OLD_SLUGS:
     if old in slugs: fail(f'old branded slug remains: {old}')

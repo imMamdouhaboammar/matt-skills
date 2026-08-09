@@ -23,6 +23,8 @@ The file should be written in a relaxed, readable style — more like a short de
 ```markdown
 # Dark Mode
 
+**Status:** active
+
 This project does not support dark mode or user-facing theming.
 
 ## Why this is out of scope
@@ -69,7 +71,7 @@ The reason should be durable. Avoid referencing temporary circumstances ("we're 
 
 ## When to check `.out-of-scope/`
 
-During triage (Step 1: Gather context), read all files in `.out-of-scope/`. When evaluating a new issue:
+During triage (Step 1: Gather context), read all files in `.out-of-scope/`. Only records with `**Status:** active` act as current rejection guidance; reconsidered records are historical context. When evaluating a new issue:
 
 - Check if the request matches an existing out-of-scope concept
 - Matching is by concept similarity, not keyword — "night theme" matches `dark-mode.md`
@@ -78,7 +80,7 @@ During triage (Step 1: Gather context), read all files in `.out-of-scope/`. When
 The maintainer may:
 
 - **Confirm** — the new issue gets added to the existing file's "Prior requests" list, then closed
-- **Reconsider** — the out-of-scope file gets deleted or updated, and the issue proceeds through normal triage
+- **Reconsider** — preserve the file, change `**Status:** active` to `**Status:** reconsidered`, add a short `## Reconsideration` note linking the new issue or decision, and let the new issue proceed through normal triage
 - **Disagree** — the issues are related but distinct, proceed with normal triage
 
 ## When to write to `.out-of-scope/`
@@ -96,10 +98,12 @@ The flow:
 5. Post a comment on the issue explaining the decision and mentioning the `.out-of-scope/` file
 6. Close the issue with the `wontfix` label
 
-## Updating or removing out-of-scope files
+## Reconsidering an out-of-scope decision
 
 If the maintainer changes their mind about a previously rejected concept:
 
-- Delete the `.out-of-scope/` file
-- The skill does not need to reopen old issues — they're historical records
+- Keep the `.out-of-scope/` file as institutional history
+- Change its status to `reconsidered` and append a `## Reconsideration` note with the new issue/decision link and a one-line reason
+- Triage ignores reconsidered records as active rejection rules while still using them as historical context
+- Old issues remain historical records unless the maintainer explicitly reopens them
 - The new issue that triggered the reconsideration proceeds through normal triage

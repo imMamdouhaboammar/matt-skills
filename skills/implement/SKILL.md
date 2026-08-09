@@ -1,7 +1,6 @@
 ---
 name: implement
-description: "Implement a piece of work based on a spec or set of tickets."
-disable-model-invocation: true
+description: Use when a concrete spec, approved plan, or set of tickets is ready to implement and the task requires scoped code changes plus verification.
 ---
 
 Implement the work described by the user in the spec or tickets.

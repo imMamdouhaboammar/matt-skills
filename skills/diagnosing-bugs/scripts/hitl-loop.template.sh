@@ -13,7 +13,7 @@
 # At the end, captured values are printed as KEY=VALUE for the agent to parse.
 #
 # `capture` prints its value back to the terminal, where the agent reads it — so
-# capture observations, and leave signing in to the user as a `step`.
+# capture observations, replace sensitive values with <REDACTED>, and leave signing in to the user as a `step`.
 
 set -euo pipefail
 
@@ -25,6 +25,7 @@ step() {
 capture() {
   local var="$1" question="$2" answer
   printf '\n>>> %s\n' "$question"
+  printf '    Redact tokens, cookies, Authorization headers, sensitive URLs, and other secrets as <REDACTED>.\n'
   read -r -p "    > " answer
   printf -v "$var" '%s' "$answer"
 }

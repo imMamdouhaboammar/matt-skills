@@ -1,123 +1,115 @@
 # HTML Report Format
 
-The architectural review is rendered as a single self-contained HTML file in the OS temp directory. Tailwind and Mermaid both come from CDNs. Mermaid handles graph-shaped diagrams reliably; hand-built divs and inline SVG handle the more editorial visuals (mass diagrams, cross-sections). Mix the two — don't lean on Mermaid for everything, it'll start to look generic.
+The architectural review is one self-contained HTML file in the OS temp directory. It must remain readable and complete offline. Use only document-local CSS, semantic HTML, and inline SVG. Do not execute remote JavaScript or load fonts, CSS frameworks, diagram libraries, or other assets from a CDN.
 
 ## Scaffold
 
 ```html
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Architecture review — {{repo name}}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module">
-      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
-    </script>
-    <style>
-      /* small custom layer for things Tailwind doesn't cover cleanly:
-         dashed seam lines, hand-drawn-feeling arrow heads, etc. */
-      .seam { stroke-dasharray: 4 4; }
-      .leak { stroke: #dc2626; }
-      .deep { background: linear-gradient(135deg, #0f172a, #1e293b); }
-    </style>
-  </head>
-  <body class="bg-stone-50 text-slate-900 font-sans">
-    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
-      <header>...</header>
-      <section id="candidates" class="space-y-10">...</section>
-      <section id="top-recommendation">...</section>
-    </main>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Architecture review - {{repo name}}</title>
+  <style>
+    :root { color-scheme: light; font-family: ui-sans-serif, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fafaf9; color: #0f172a; }
+    main { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0 72px; }
+    article { background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 24px; margin: 28px 0; }
+    .pair { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .diagram { min-height: 300px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; overflow: hidden; }
+    .badge { display: inline-block; border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 700; }
+    .strong { background: #d1fae5; color: #065f46; }
+    .explore { background: #fef3c7; color: #92400e; }
+    .speculative { background: #e2e8f0; color: #334155; }
+    .module { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .deep { fill: #1e293b; stroke: #0f172a; stroke-width: 4; }
+    .seam { stroke: #64748b; stroke-width: 2; stroke-dasharray: 6 5; }
+    .leak { stroke: #dc2626; stroke-width: 3; }
+    @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>...</header>
+    <section id="candidates">...</section>
+    <section id="top-recommendation">...</section>
+  </main>
+</body>
 </html>
 ```
 
-## Header
-
-Repo name, date, and a compact legend: solid box = module, dashed line = seam, red arrow = leakage, thick dark box = deep module. No introduction paragraph — straight into the candidates.
+The file contains no `<script>` tags and no external stylesheet, image, font, or module imports. If a logo or other small visual is truly necessary, use inline SVG rather than a network URL.
 
 ## Candidate card
 
-The diagrams carry the weight. Prose is sparse, plain, and uses the glossary terms (from the `codebase-design` skill) without ceremony.
+Each candidate is one `<article>` with sparse prose and a strong visual comparison:
 
-Each candidate is one `<article>`:
+- **Title**: name the deepening
+- **Badge row**: `Strong`, `Worth exploring`, or `Speculative`, plus dependency category
+- **Files**: compact monospaced list
+- **Before / After**: side-by-side self-contained diagrams
+- **Problem**: one sentence
+- **Solution**: one sentence
+- **Wins**: short bullets phrased in locality, leverage, depth, interface, and seam terms
+- **ADR callout**: only when the candidate conflicts with a real ADR
 
-- **Title** — short, names the deepening (e.g. "Collapse the Order intake pipeline").
-- **Badge row** — recommendation strength (`Strong` = emerald, `Worth exploring` = amber, `Speculative` = slate), plus a tag for the dependency category (`in-process`, `local-substitutable`, `ports & adapters`, `mock`).
-- **Files** — monospaced list, `font-mono text-sm`.
-- **Before / After diagram** — the centrepiece. Two columns, side by side. See patterns below.
-- **Problem** — one sentence. What hurts.
-- **Solution** — one sentence. What changes.
-- **Wins** — bullets, ≤6 words each. e.g. "Tests hit one interface", "Pricing logic stops leaking", "Delete 4 shallow wrappers".
-- **ADR callout** (if applicable) — one line in an amber-tinted box.
-
-No paragraphs of explanation. If the diagram needs a paragraph to be understood, redraw the diagram.
+The diagrams carry the explanation. If a diagram needs a paragraph to make sense, redraw it.
 
 ## Diagram patterns
 
-Pick the pattern that fits the candidate. Mix them. Don't make every diagram look the same — variety is part of the point.
+### Inline SVG dependency graph
 
-### Mermaid graph (the workhorse for dependencies / call flow)
-
-Use a Mermaid `flowchart` or `graph` when the point is "X calls Y calls Z, and look at the mess." Wrap it in a Tailwind-styled card so it doesn't feel parachuted in. Style with classDef to colour leakage edges red and the deep module dark. Sequence diagrams work well for "before: 6 round-trips; after: 1."
+Use SVG for call graphs, dependencies, and leakage. Give every edge its own explicit style so leakage styling applies to the edge itself, not to adjacent nodes.
 
 ```html
-<div class="rounded-lg border border-slate-200 bg-white p-4">
-  <pre class="mermaid">
-    flowchart LR
-      A[OrderHandler] --> B[OrderValidator]
-      B --> C[OrderRepo]
-      C -.leak.-> D[PricingClient]
-      classDef leak stroke:#dc2626,stroke-width:2px;
-      class C,D leak
-  </pre>
-</div>
+<svg viewBox="0 0 520 220" role="img" aria-label="Before: pricing leaks across the repository seam">
+  <rect class="module" x="20" y="70" width="120" height="56" rx="8" />
+  <rect class="module" x="200" y="70" width="120" height="56" rx="8" />
+  <rect class="module" x="380" y="70" width="120" height="56" rx="8" />
+  <text x="80" y="103" text-anchor="middle">Order handler</text>
+  <text x="260" y="103" text-anchor="middle">Order repo</text>
+  <text x="440" y="103" text-anchor="middle">Pricing</text>
+  <path d="M140 98 H200" stroke="#334155" stroke-width="2" marker-end="url(#arrow)" />
+  <path class="leak" d="M320 98 H380" marker-end="url(#arrow-red)" />
+</svg>
 ```
 
-### Hand-built boxes-and-arrows (when Mermaid's layout fights you)
+Use `<defs><marker>...</marker></defs>` for arrow heads when needed. Keep labels in the SVG so the graphic is useful without scripts.
 
-Modules as `<div>`s with borders and labels. Arrows as inline SVG `<line>` or `<path>` elements positioned absolutely over a relative container. Reach for this when you want the "after" diagram to feel like one thick-bordered deep module with greyed-out internals — Mermaid won't render that with the right weight.
+### Hand-built boxes and arrows
 
-### Cross-section (good for layered shallowness)
+Use positioned HTML boxes with an inline SVG overlay when text wrapping matters more than graph layout. The before state can show several shallow modules; the after state can show one thick-bordered deep module with its internals faded.
 
-Stack horizontal bands (`h-12 border-l-4`) to show layers a call passes through. Before: 6 thin layers each doing nothing. After: 1 thick band labelled with the consolidated responsibility.
+### Cross-section
 
-### Mass diagram (good for "interface as wide as implementation")
+Stack horizontal bands to show a call crossing too many shallow modules. The after state should visibly collapse unnecessary seams.
 
-Two rectangles per module — one for interface surface area, one for implementation. Before: interface rectangle is nearly as tall as the implementation rectangle (shallow). After: interface rectangle is short, implementation rectangle is tall (deep).
+### Mass diagram
+
+Represent interface surface and implementation mass as two proportional rectangles. A shallow module has interface mass close to implementation mass; a deep module has a small interface and much larger hidden implementation.
 
 ### Call-graph collapse
 
-Before: a tree of function calls rendered as nested boxes. After: the same tree collapsed into one box, with the now-internal calls shown faded inside it.
+Draw the before state as a tree of calls. Draw the after state as one deep module with internal calls faded inside the box and only the public interface exposed.
+
+## Accessibility and resilience
+
+- Every meaningful SVG gets `role="img"` and an `aria-label` describing the architectural point.
+- Keep important meaning in text as well as color; leakage uses a label or line style in addition to red.
+- Preserve sufficient contrast and a logical reading order.
+- Keep the report useful when SVG cannot render by including one-sentence Problem and Solution text for each candidate.
+- No runtime network dependency is permitted.
 
 ## Style guidance
 
-- Lean editorial, not corporate-dashboard. Generous whitespace. Serif optional for headings (`font-serif` works well with stone/slate).
-- Colour sparingly: one accent (emerald or indigo) plus red for leakage and amber for warnings.
-- Keep diagrams ~320px tall so before/after sits comfortably side by side without scrolling.
-- Use `text-xs uppercase tracking-wider` for module labels inside diagrams — they should read as schematic, not as UI.
-- The only scripts are the Tailwind CDN and the Mermaid ESM import. The report is otherwise static — no app code, no interactivity beyond Mermaid's own rendering.
+Use a restrained editorial layout with generous whitespace. Avoid dashboard chrome. One neutral palette plus one accent is enough; red is reserved for leakage and amber for ADR warnings. Keep diagrams around 300-340px tall so before/after fits comfortably side by side.
 
-## Top recommendation section
+## Top recommendation
 
-One larger card. Candidate name, one sentence on why, anchor link to its card. That's it.
+End with one larger card containing the candidate name, one sentence explaining why it has the highest leverage, and an anchor link back to the candidate.
 
-## Tone
+## Vocabulary
 
-Plain English, concise — but the architectural nouns and verbs come straight from the `codebase-design` skill. Concision is not an excuse to drift.
-
-**Use exactly:** module, interface, implementation, depth, deep, shallow, seam, adapter, leverage, locality.
-
-**Never substitute:** component, service, unit (for module) · API, signature (for interface) · boundary (for seam) · layer, wrapper (for module, when you mean module).
-
-**Phrasings that fit the style:**
-
-- "Order intake module is shallow — interface nearly matches the implementation."
-- "Pricing leaks across the seam."
-- "Deepen: one interface, one place to test."
-- "Two adapters justify the seam: HTTP in prod, in-memory in tests."
-
-**Wins bullets** name the gain in glossary terms: *"locality: bugs concentrate in one module"*, *"leverage: one interface, N call sites"*, *"interface shrinks; implementation absorbs the wrappers"*. Don't write *"easier to maintain"* or *"cleaner code"* — those terms aren't in the glossary and don't earn their place.
-
-No hedging, no throat-clearing, no "it's worth noting that…". If a sentence could be a bullet, make it a bullet. If a bullet could be cut, cut it. If a term isn't in the `codebase-design` glossary, reach for one that is before inventing a new one.
+Use exactly the architecture vocabulary from `codebase-design`: module, interface, implementation, depth, deep, shallow, seam, adapter, leverage, locality.

@@ -15,6 +15,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate curated plugin
         run: python3 scripts/validate_plugin.py
+      - name: Test wizard shell safety
+        run: |
+          bash -n skills/wizard/template.sh
+          bash -n skills/diagnosing-bugs/scripts/hitl-loop.template.sh
+          python3 scripts/test_wizard_template.py
       - name: Build deterministic packages
         run: |
           python3 scripts/package_plugin.py /tmp/plugin-a.zip

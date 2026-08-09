@@ -1,7 +1,6 @@
 ---
 name: teach
-description: Teach the user a new skill or concept, within this workspace.
-disable-model-invocation: true
+description: Use when the user wants to learn a technical concept or skill from the current workspace through an adaptive explanation, examples, checks for understanding, and durable learning records.
 argument-hint: "What would you like to learn about?"
 ---
 

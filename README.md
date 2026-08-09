@@ -4,7 +4,7 @@ A curated, ChatGPT/Codex-ready distribution of Matt Pocock's MIT-licensed engine
 
 ## What ships
 
-The plugin contains 25 focused Skills under one native `skills/` root. `engineering-workflow-guide` is model-invoked and routes ambiguous engineering or productivity work to the narrowest useful specialist. User-controlled orchestration Skills keep implicit invocation disabled through their `agents/openai.yaml` policy.
+The plugin contains 25 focused Skills under one native `skills/` root. `engineering-workflow-guide` is model-invoked and routes ambiguous engineering or productivity work to the narrowest useful specialist. All 25 packaged Skills are model-invoked so ChatGPT or Codex can route from the guide into the selected specialist automatically. External writes and tool actions still follow the permissions and confirmation rules of the active host.
 
 Core workflows cover requirements discovery, specs, tickets, implementation, TDD, debugging, code review, domain modeling, architecture, research, triage, prototyping, merge conflict resolution, setup, handoffs, teaching, and writing for agents.
 
